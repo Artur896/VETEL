@@ -24,7 +24,7 @@
         // Funciones para las burbujas de chat
         function openWhatsApp() {
             const message = encodeURIComponent("¡Hola! Me interesa conocer más sobre los servicios del equipo Vetel para mi evento.");
-            window.open(`https://wa.me/5217221234567?text=${message}`, '_blank');
+            window.open(`https://wa.me/7296463642?text=${message}`, '_blank');
         }
 
         function openChatbot() {
