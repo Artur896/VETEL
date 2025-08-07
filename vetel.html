@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vetel - Servicio de Meseros Profesionales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+        
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #d4af37;
+            --accent: #f4d03f;
+            --light: #ffffff;
+            --dark: #0a0a0a;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+        }
+        
+        .title-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(10, 10, 10, 0.8)), url('/placeholder.svg?height=1080&width=1920&text=Elegant+waiters+serving+at+upscale+event') center/cover no-repeat;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.15);
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+        }
+
+        /* Floating Chat Bubbles */
+        .chat-bubble {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-bubble {
+            background: #25D366;
+            bottom: 30px;
+            right: 30px;
+        }
+
+        .chatbot-bubble {
+            background: #d4af37;
+            bottom: 100px;
+            right: 30px;
+        }
+
+        .chat-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .chat-tooltip::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid white;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+
+        .chat-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div>
+                    <a href="#" class="text-2xl font-bold text-black title-font">VETEL</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#servicios" class="text-gray-800 hover:text-yellow-600 transition">Servicios</a>
+                    <a href="#nosotros" class="text-gray-800 hover:text-yellow-600 transition">Nosotros</a>
+                    <a href="#eventos" class="text-gray-800 hover:text-yellow-600 transition">Eventos</a>
+                    <a href="#contacto" class="text-gray-800 hover:text-yellow-600 transition">Contacto</a>
+                    <a href="#cotizar" class="bg-yellow-600 text-black px-4 py-2 rounded-md hover:bg-yellow-500 transition font-semibold">Cotizar</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-gray-800">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-32">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold title-font mb-4">ELEGANCIA Y DISTINCIÓN EN CADA SERVICIO</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Somos un equipo unido de meseros experimentados que transformamos cada evento en una experiencia memorable</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#cotizar" class="bg-yellow-600 text-black px-8 py-3 rounded-md font-semibold text-lg hover:bg-yellow-500 transition">Cotizar ahora</a>
+                <a href="#servicios" class="bg-white text-black px-8 py-3 rounded-md font-semibold text-lg hover:bg-gray-100 transition">Conoce nuestros servicios</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6 border-r border-gray-200">
+                    <p class="text-5xl font-bold text-yellow-600 mb-2">200+</p>
+                    <p class="text-gray-600">Eventos exitosos</p>
+                </div>
+                <div class="p-6 border-r border-gray-200">
+                    <p class="text-5xl font-bold text-yellow-600 mb-2">100%</p>
+                    <p class="text-gray-600">Clientes satisfechos</p>
+                </div>
+                <div class="p-6 border-r border-gray-200">
+                    <p class="text-5xl font-bold text-yellow-600 mb-2">24/7</p>
+                    <p class="text-gray-600">Disponibilidad</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-5xl font-bold text-yellow-600 mb-2">15+</p>
+                    <p class="text-gray-600">Meseros en el equipo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="nosotros" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="/placeholder.svg?height=600&width=800&text=Professional+waiters+team+in+black+uniforms+with+golden+details" alt="Equipo de meseros Vetel en uniformes negros elegantes trabajando coordinadamente" class="rounded-lg shadow-xl">
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h2 class="text-3xl font-bold title-font mb-6 text-black">Somos Más que Meseros, Somos un Equipo</h2>
+                    <p class="text-lg mb-6">En Vetel no somos solo un servicio, somos una hermandad de meseros que hemos decidido unir fuerzas para ofrecer lo mejor de cada uno. Cada integrante de nuestro equipo aporta años de experiencia en diferentes tipos de eventos, desde bodas íntimas hasta grandes celebraciones corporativas.</p>
+                    <p class="text-lg mb-8">Lo que nos distingue es nuestra química como grupo. Nos conocemos, nos complementamos y trabajamos como un solo organismo. Cuando contratas a Vetel, no solo obtienes meseros experimentados, obtienes un equipo que ha perfeccionado el arte de trabajar juntos para crear momentos perfectos.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="text-yellow-600 mr-4 mt-1">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Equipo Consolidado</h3>
+                                <p class="text-gray-600">15 meseros que trabajamos juntos regularmente, conocemos nuestros ritmos</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-yellow-600 mr-4 mt-1">
+                                <i class="fas fa-handshake text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Coordinación Perfecta</h3>
+                                <p class="text-gray-600">Años trabajando juntos nos permiten anticiparnos y coordinarnos sin palabras</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-yellow-600 mr-4 mt-1">
+                                <i class="fas fa-heart text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Pasión Compartida</h3>
+                                <p class="text-gray-600">Amamos lo que hacemos y eso se refleja en cada evento que atendemos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Showcase -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold title-font mb-4 text-black">Conoce a Nuestro Equipo</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Cada uno de nosotros aporta su experiencia y personalidad única al servicio</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <img src="/placeholder.svg?height=300&width=300&text=Head+waiter+in+elegant+black+uniform+smiling" alt="Mesero principal del equipo Vetel con uniforme negro elegante" class="w-48 h-48 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">Nuestros Veteranos</h3>
+                    <p class="text-gray-600">Con más de 8 años de experiencia, lideran cada servicio con maestría y elegancia.</p>
+                </div>
+                <div class="text-center">
+                    <img src="/placeholder.svg?height=300&width=300&text=Professional+bartender+preparing+cocktails+with+golden+shaker" alt="Bartender profesional del equipo preparando cócteles con herramientas doradas" class="w-48 h-48 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">Nuestros Bartenders</h3>
+                    <p class="text-gray-600">Especialistas en crear la atmósfera perfecta con bebidas excepcionales y presentación impecable.</p>
+                </div>
+                <div class="text-center">
+                    <img src="/placeholder.svg?height=300&width=300&text=Young+energetic+waiters+working+as+team+in+coordination" alt="Meseros jóvenes del equipo trabajando coordinadamente en un evento" class="w-48 h-48 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">Nuestra Nueva Generación</h3>
+                    <p class="text-gray-600">Energía fresca y ganas de aprender, siempre bajo la guía de nuestros meseros más experimentados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="servicios" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold title-font mb-4 text-black">Lo que Hacemos Mejor</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Cada servicio refleja años de experiencia trabajando como equipo unido</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md border border-gray-100 transition duration-300">
+                    <div class="text-yellow-600 text-4xl mb-6">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Servicio de Bar Coordinado</h3>
+                    <p class="text-gray-600 mb-6">Nuestros bartenders trabajan en perfecta sincronía con los meseros para un servicio fluido y elegante.</p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Coordinación perfecta bar-mesa</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Cócteles signature del equipo</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Servicio sincronizado</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md border border-gray-100 transition duration-300">
+                    <div class="text-yellow-600 text-4xl mb-6">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Servicio de Mesa Orquestado</h3>
+                    <p class="text-gray-600 mb-6">Como una orquesta bien dirigida, cada mesero conoce su papel y momento exacto de actuación.</p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Movimientos coordinados y elegantes</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Uniformes impecables del equipo</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Servicio silencioso y eficiente</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md border border-gray-100 transition duration-300">
+                    <div class="text-yellow-600 text-4xl mb-6">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Coordinación Total del Evento</h3>
+                    <p class="text-gray-600 mb-6">Nuestro equipo se encarga de coordinar todos los aspectos del servicio para que todo fluya perfectamente.</p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Un solo punto de contacto</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Coordinación con otros proveedores</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-600 mr-2 mt-1"></i>
+                            <span>Supervisión constante del equipo</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Types -->
+    <section id="eventos" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold title-font mb-4 text-black">Eventos donde Brillamos Juntos</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Cada tipo de evento requiere una coreografía diferente, y nosotros la dominamos</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Event 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="mb-4">
+                        <img src="/placeholder.svg?height=400&width=800&text=Elegant+wedding+reception+with+professional+waiters+in+black+uniforms" alt="Recepción de boda elegante con meseros profesionales en uniformes negros sirviendo coordinadamente" class="rounded-lg w-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Bodas</h3>
+                    <p class="text-gray-600 mb-4">El día más especial merece nuestro mejor desempeño como equipo. Cada movimiento está coreografiado para la perfección.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Servicio coreografiado</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Protocolo impecable</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Equipo completo</span>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="mb-4">
+                        <img src="/placeholder.svg?height=400&width=800&text=Quinceañera+celebration+with+coordinated+waiters+serving+champagne" alt="Celebración de XV años con meseros coordinados sirviendo champagne en copas elegantes" class="rounded-lg w-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">XV Años</h3>
+                    <p class="text-gray-600 mb-4">Una celebración mágica donde nuestro equipo crea momentos inolvidables con cada servicio coordinado.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Brindis coordinado</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Vals especial</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Servicio juvenil</span>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="mb-4">
+                        <img src="/placeholder.svg?height=400&width=800&text=Corporate+event+with+professional+waiters+serving+executives" alt="Evento corporativo con meseros profesionales sirviendo a ejecutivos en ambiente formal" class="rounded-lg w-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Eventos Corporativos</h3>
+                    <p class="text-gray-600 mb-4">Profesionalismo y discreción donde nuestro equipo demuestra su experiencia en ambientes ejecutivos.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Servicio ejecutivo</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Discreción total</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Protocolo corporativo</span>
+                    </div>
+                </div>
+                
+                <!-- Event 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="mb-4">
+                        <img src="/placeholder.svg?height=400&width=800&text=Baby+shower+with+gentle+waiters+serving+delicate+treats" alt="Baby shower con meseros delicados sirviendo bocadillos especiales en ambiente cálido" class="rounded-lg w-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Baby Showers</h3>
+                    <p class="text-gray-600 mb-4">Celebramos la nueva vida con la calidez que caracteriza a nuestro equipo en momentos especiales.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Ambiente cálido</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Servicio delicado</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Equipo familiar</span>
+                    </div>
+                </div>
+                
+                <!-- Event 5 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="mb-4">
+                        <img src="/placeholder.svg?height=400&width=800&text=Baptism+ceremony+with+respectful+waiters+in+elegant+service" alt="Ceremonia de bautizo con meseros respetuosos brindando servicio elegante y discreto" class="rounded-lg w-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Bautizos</h3>
+                    <p class="text-gray-600 mb-4">Un momento sagrado que nuestro equipo honra con respeto y el servicio más elegante.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Respeto total</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Elegancia discreta</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Tradición familiar</span>
+                    </div>
+                </div>
+                
+                <!-- Event 6 -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="mb-4">
+                        <img src="/placeholder.svg?height=400&width=800&text=New+year+celebration+with+festive+waiters+serving+special+dinner" alt="Celebración de año nuevo con meseros festivos sirviendo cena especial en ambiente iluminado" class="rounded-lg w-full">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Celebraciones de Temporada</h3>
+                    <p class="text-gray-600 mb-4">Navidad, Año Nuevo y fechas especiales donde nuestro equipo añade la magia de la temporada.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Espíritu festivo</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Menús especiales</span>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Magia navideña</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-gradient-to-r from-black to-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold title-font text-white mb-4">Lo que Dicen de Nuestro Equipo</h2>
+                <p class="text-xl text-gray-200 max-w-2xl mx-auto">Cada testimonio refleja el trabajo coordinado de todo nuestro grupo</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-500 text-xl mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"Lo que más me impresionó de Vetel fue ver cómo trabajaban como un solo equipo. Parecía una coreografía perfecta, cada mesero sabía exactamente qué hacer y cuándo hacerlo."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4 overflow-hidden">
+                            <img src="/placeholder.svg?height=200&width=200&text=Happy+bride+smiling" alt="Novia feliz sonriendo después de su boda perfecta" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Ana Martínez</h4>
+                            <p class="text-sm text-gray-600">Boda en Toluca</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-500 text-xl mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"Contraté a Vetel para nuestro evento corporativo y me sorprendió la sincronización del equipo. Nuestros invitados comentaron lo profesional y coordinado que se veía todo el servicio."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4 overflow-hidden">
+                            <img src="/placeholder.svg?height=200&width=200&text=Professional+executive+satisfied" alt="Ejecutivo profesional satisfecho con el servicio corporativo" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Carlos Rojas</h4>
+                            <p class="text-sm text-gray-600">Director de Marketing</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-500 text-xl mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"El equipo de Vetel hizo que la fiesta de XV de mi hija fuera mágica. Se notaba que han trabajado juntos por mucho tiempo, todo fluyó perfectamente sin que yo tuviera que preocuparme por nada."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 mr-4 overflow-hidden">
+                            <img src="/placeholder.svg?height=200&width=200&text=Proud+mother+smiling" alt="Madre orgullosa sonriendo después del exitoso evento de XV años" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">María González</h4>
+                            <p class="text-sm text-gray-600">Celebración de XV Años</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cotizar" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="bg-gradient-to-r from-black to-gray-800 rounded-2xl p-12 text-center text-white relative overflow-hidden">
+                <div class="absolute inset-0 bg-yellow-600 opacity-10"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-4xl font-bold title-font mb-6">¿Listo para experimentar nuestro servicio de equipo?</h2>
+                    <p class="text-xl mb-8 max-w-2xl mx-auto">Permítenos demostrar por qué trabajar como equipo unido hace toda la diferencia en tu evento especial</p>
+                    <div class="flex flex-col md:flex-row justify-center gap-4">
+                        <a href="#" class="bg-yellow-600 text-black px-8 py-3 rounded-md font-semibold text-lg hover:bg-yellow-500 transition">Solicitar cotización</a>
+                        <a href="#" class="bg-transparent border-2 border-yellow-600 text-yellow-600 px-8 py-3 rounded-md font-semibold text-lg hover:bg-yellow-600 hover:text-black transition">Contáctanos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contacto" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h2 class="text-3xl font-bold title-font mb-6 text-black">¡Hablemos de tu evento!</h2>
+                    <p class="text-lg mb-8">Estamos aquí para escucharte y ayudarte a planear el servicio perfecto para tu celebración especial en Toluca y alrededores.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="text-yellow-600 text-xl mr-4 mt-1">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Teléfono</h3>
+                                <p class="text-gray-600">+52 722 123 4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="text-yellow-600 text-xl mr-4 mt-1">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Email</h3>
+                                <p class="text-gray-600">equipo@vetel.com.mx</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="text-yellow-600 text-xl mr-4 mt-1">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Área de Servicio</h3>
+                                <p class="text-gray-600">Toluca, Metepec, Lerma,<br>Zinacantepec y alrededores</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="text-yellow-600 text-xl mr-4 mt-1">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg">Horario de atención</h3>
+                                <p class="text-gray-600">Lunes a Domingo<br>9:00 am - 8:00 pm</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 md:pl-12">
+                    <div class="bg-white p-8 rounded-lg border border-gray-200 shadow-md">
+                        <h3 class="text-xl font-bold mb-6">Cuéntanos sobre tu evento</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="name">Nombre completo</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-600">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="email">Correo electrónico</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-600">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="phone">Teléfono</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-600">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="event_type">Tipo de evento</label>
+                                <select id="event_type" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-600">
+                                    <option value="">¿Qué vas a celebrar?</option>
+                                    <option value="boda">Boda</option>
+                                    <option value="xv">XV Años</option>
+                                    <option value="bautizo">Bautizo</option>
+                                    <option value="baby_shower">Baby Shower</option>
+                                    <option value="corporativo">Evento Corporativo</option>
+                                    <option value="fin_ano">Celebración de Temporada</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="message">Cuéntanos más detalles</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-600" placeholder="Fecha, número de invitados, ubicación, servicios que necesitas..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-yellow-600 text-black py-3 rounded-md font-semibold hover:bg-yellow-500 transition">Enviar mensaje</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-2xl font-bold title-font mb-4 text-yellow-600">VETEL</h3>
+                    <p class="max-w-xs mb-4 text-gray-300">Un equipo unido de meseros profesionales que hace que cada evento sea una experiencia inolvidable.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-yellow-600 transition">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-600 transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-yellow-600 transition">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-yellow-600">Nuestros Servicios</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Servicio de Mesa</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Servicio de Bar</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Coordinación</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Equipo Completo</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-yellow-600">Eventos</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Bodas</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">XV Años</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Bautizos</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Corporativos</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-yellow-600">El Equipo</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Nuestra Historia</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Filosofía</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white transition">Testimonios</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2024 Vetel - Equipo de Meseros Profesionales. Todos los derechos reservados.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition">Política de privacidad</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Términos de servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chat Bubbles -->
+    <div class="whatsapp-bubble chat-bubble" onclick="openWhatsApp()">
+        <i class="fab fa-whatsapp text-white text-2xl"></i>
+        <div class="chat-tooltip" id="whatsapp-tooltip">¡Chatea con nosotros por WhatsApp!</div>
+    </div>
+
+    <div class="chatbot-bubble chat-bubble pulse" onclick="openChatbot()">
+        <i class="fas fa-comments text-black text-2xl"></i>
+        <div class="chat-tooltip" id="chatbot-tooltip">¿Preguntas? ¡Nuestro asistente te ayuda!</div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>
